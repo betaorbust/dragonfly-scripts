@@ -67,18 +67,27 @@ from dragonfly import *  # @UnusedWildImport
 class TaskRule(MappingRule):
 
     mapping = {
-               "[open | switch to] task <n>":  Key("space"),
-               "(menu | pop up) task <n>":     Key("apps"),
-               "close task <n>":               Key("apps/10, c"),
-               "restore task <n>":             Key("apps/10, r"),
-               "(minimize | min) task <n>":    Key("apps/10, n"),
-               "(maximize | max) task <n>":    Key("apps/10, x"),
+               "[open | switch to] task <n>":            Key("space"),
+               "[open | switch to] nested task <n> <m>": Key("space"),
+               "(menu | pop up) task <n>":               Key("apps"),
+               "close task <n>":                         Key("apps/10, c"),
+               "restore task <n>":                       Key("apps/10, r"),
+               "(minimize | min) task <n>":              Key("apps/10, n"),
+               "(maximize | max) task <n>":              Key("apps/10, x"),
               }
-    extras = [IntegerRef("n", 1, 50)]
+    extras = [
+        IntegerRef("n", 1, 50),
+        IntegerRef("m", 1, 50)
+    ]
 
     def _process_recognition(self, value, extras):
         count = extras["n"] - 1
-        action = Key("w-b/10, s-tab/10, right:%d/10" % count) + value
+
+        # If we're targeting a collapsed set of tasks via "nested task"
+        if("m" in extras):
+            action = Key("w-b/10, s-tab/10, right:%d/10, up/10, right:%d/10" % (count, extras["m"] -1)) + value
+        else:
+            action = Key("w-b/10, s-tab/10, right:%d/10" % count) + value
         action.execute()
 
 
