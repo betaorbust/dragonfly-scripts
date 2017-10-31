@@ -25,10 +25,6 @@ from dragonfly import (
     Repetition,
     CompoundRule,
     AppContext,
-)
-
-from lib.dynamic_aenea import (
-    GlobalDynamicContext,
     Key,
     Text,
 )
@@ -402,7 +398,7 @@ grammarCfg.cmd.map = Item(
         # Functional keys.
         "space": release + Key("space"),
         "space [<n>]": release + Key("space:%(n)d"),
-        "enter [<n>]": release + Key("enter:%(n)d"),
+        "(enter|slap) [<n>]": release + Key("enter:%(n)d"),
         "tab [<n>]": Key("tab:%(n)d"),
         "delete [<n>]": Key("del/3:%(n)d"),
         "delete [this] line": Key("home, s-end, del"),  # @IgnorePep8
@@ -536,7 +532,7 @@ class RepeatRule(CompoundRule):
                 action.execute()
         release.execute()
 
-grammar = Grammar("Generic edit", context=GlobalDynamicContext())
+grammar = Grammar("Generic edit")
 grammar.add_rule(RepeatRule())  # Add the top-level rule.
 grammar.load()  # Load the grammar.
 

@@ -50,3 +50,4 @@ junk.py
 # Grammar config files.
 _app_hipchat.txt
 _fastmail.txt
+.vscode/settings.json

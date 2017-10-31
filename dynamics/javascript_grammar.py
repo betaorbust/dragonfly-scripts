@@ -3,13 +3,9 @@ from dragonfly import (
     MappingRule,
     Grammar,
     Dictation,
-    IntegerRef
-)
-
-from lib.dynamic_aenea import (
-    GlobalDynamicContext,
+    IntegerRef,
     Key,
-    Text,
+    Text
 )
 
 import lib.format
@@ -23,7 +19,6 @@ INCOMPATIBLE_MODULES = [
     'html',
     'css'
 ]
-
 
 def define_function(text):
     Text("function ").execute()
@@ -116,7 +111,7 @@ rules = MappingRule(
     }
 )
 
-grammar = Grammar("JavaScript grammar", context=GlobalDynamicContext())
+grammar = Grammar("JavaScript grammar")
 grammar.add_rule(rules)
 grammar.load()
 grammar.disable()

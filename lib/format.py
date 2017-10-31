@@ -3,9 +3,6 @@ import re
 from dragonfly import (
     Clipboard,
     Pause,
-)
-
-from lib.dynamic_aenea import (
     Key,
     Text,
 )

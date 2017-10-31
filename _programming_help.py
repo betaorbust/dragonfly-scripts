@@ -5,11 +5,7 @@ from dragonfly import (
     Repetition,
     Dictation,
     IntegerRef,
-    Grammar
-)
-
-from lib.dynamic_aenea import (
-    GlobalDynamicContext,
+    Grammar,
     Key,
     Text,
 )
@@ -76,7 +72,7 @@ series_rule = SeriesMappingRule(
     }
 )
 
-grammar = Grammar("Programming help", context=GlobalDynamicContext())
+grammar = Grammar("Programming help")
 grammar.add_rule(series_rule)
 grammar.load()
 
