@@ -86,7 +86,7 @@ def reload_natlink():
 
 # For repeating of characters.
 specialCharMap = {
-    "(bar|vertical bar|pipe)": "|",
+    "(bar|vertical bar|vertbar|pipe)": "|",
     "(dash|minus|hyphen)": "-",
     "(dot|period)": ".",
     "comma": ",",
@@ -96,8 +96,8 @@ specialCharMap = {
     "colon": ":",
     "(semicolon|semi-colon)": ";",
     "at": "@",
-    "[double] quote": '"',
-    "single quote": "'",
+    "(double| dub) quote": '"',
+    "[single] quote": "'",
     "hash": "#",
     "dollar": "$",
     "percent": "%",
@@ -205,9 +205,9 @@ pressKeyMap.update(functionKeyMap)
 
 
 formatMap = {
-    "camel case": ft.camelCase,
-    "pascal case": ft.pascalCase,
-    "snake case": ft.snakeCase,
+    "camel": ft.camelCase,
+    "pascal": ft.pascalCase,
+    "snake": ft.snakeCase,
     "uppercase": ft.upperCase,
     "lowercase": ft.lowerCase,
     "squash": ft.squash,
@@ -399,6 +399,7 @@ grammarCfg.cmd.map = Item(
         "space": release + Key("space"),
         "space [<n>]": release + Key("space:%(n)d"),
         "(enter|slap) [<n>]": release + Key("enter:%(n)d"),
+        "(escape key|clap) [<n>]": Key("escape:%(n)d"),
         "tab [<n>]": Key("tab:%(n)d"),
         "delete [<n>]": Key("del/3:%(n)d"),
         "delete [this] line": Key("home, s-end, del"),  # @IgnorePep8
@@ -425,8 +426,8 @@ grammarCfg.cmd.map = Item(
         "brackets": Key("lbracket, rbracket, left/3"),
         "braces": Key("lbrace, rbrace, left/3"),
         "parens": Key("lparen, rparen, left/3"),
-        "quotes": Key("dquote/3, dquote/3, left/3"),
-        "single quotes": Key("squote, squote, left/3"),
+        "(double | dub) quotes": Key("dquote/3, dquote/3, left/3"),
+        "quotes": Key("squote, squote, left/3"),
         # Shorthand multiple characters.
         "double <char>": Text("%(char)s%(char)s"),
         "triple <char>": Text("%(char)s%(char)s%(char)s"),
@@ -441,9 +442,9 @@ grammarCfg.cmd.map = Item(
         # To release keyboard capture by VirtualBox.
         "press right control": Key("Control_R"),
         # Formatting <n> words to the left of the cursor.
-        "camel case <n> [words]": Function(camel_case_count),
-        "pascal case <n> [words]": Function(pascal_case_count),
-        "snake case <n> [words]": Function(snake_case_count),
+        "camel <n> [words]": Function(camel_case_count),
+        "pascal <n> [words]": Function(pascal_case_count),
+        "snake <n> [words]": Function(snake_case_count),
         "squash <n> [words]": Function(squash_count),
         "expand <n> [words]": Function(expand_count),
         "uppercase <n> [words]": Function(uppercase_count),

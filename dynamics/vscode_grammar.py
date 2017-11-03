@@ -26,7 +26,27 @@ def define_function(text):
 
 rules = MappingRule(
     mapping={
-       "foobar": Text("foobar")
+        # File management
+        "[open] command palette": Key("cs-p"),
+        "open file": Key("c-p"),
+        "Close code tab": Key("c-w"),
+        "Save file": Key("c-s"),
+       
+        # Search
+        "(search | find in) [all] (files | codebase)": Key("cs-f"),
+        "(search | find) [file]": Key("c-f"),
+
+        # Tab management       
+        "Next tab": Key("c-pgdown"),
+        "Previous tab": Key("c-pgup"),
+        "Close tab": Key("c-f4"),
+
+        # moving around a file
+        "(go to | jump | jump to) line <n>": Key("c-g") + Text("%(n)d") + Key("enter"),
+        "Go to definition": Key("f12"),
+        "Go to required definition": Key("c-f12:2") + Key("c-right:5") + Key("left/50") + Key("f12"),
+        "Go to (top | first line)": Key("c-home"),
+        "Go to ( bottom | last line)": Key("c-end")
     },
     extras=[
         IntegerRef("n", 1, 100),
