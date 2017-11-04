@@ -17,11 +17,20 @@ INCOMPATIBLE_MODULES = [
 
 ]
 
-def define_function(text):
-    Text("function ").execute()
-    lib.format.camel_case_text(text)
-    Text("() {").execute()
-    Key("left:3").execute()
+def findNthToken(text, n, direction):
+    print("It's running!")
+    try:
+        text
+    except NameError:
+        print("No search text provided for token.")
+    else:
+        Key("c-f").execute()
+        Text("%(text)s").execute({"text": text})
+        if direction == "reverse":
+            Key("s-enter:%(n)d").execute()
+        else:
+            Key("enter:%(n)d").execute()
+        Key('escape').execute()
 
 
 rules = MappingRule(
@@ -35,6 +44,9 @@ rules = MappingRule(
         # Search
         "(search | find in) [all] (files | codebase)": Key("cs-f"),
         "(search | find) [file]": Key("c-f"),
+        "(Find | Jump [to]) next <text>": Function(findNthToken, n=1, direction="forward"),
+        "(Find | Jump [to]) previous <text>": Function(findNthToken, n=1, direction="reverse"),
+
 
         # Tab management       
         "Next tab": Key("c-pgdown"),
@@ -53,7 +65,8 @@ rules = MappingRule(
         Dictation("text"),
     ],
     defaults={
-        "n": 1
+        "n": 1,
+        "text": ""
     }
 )
 

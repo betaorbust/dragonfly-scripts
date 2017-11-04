@@ -402,7 +402,7 @@ grammarCfg.cmd.map = Item(
         "(escape key|clap) [<n>]": Key("escape:%(n)d"),
         "tab [<n>]": Key("tab:%(n)d"),
         "delete [<n>]": Key("del/3:%(n)d"),
-        "delete [this] line": Key("home, s-end, del"),  # @IgnorePep8
+        "delete [this] line": Key("home, s-end, del, space, s-home, del:2"),  # @IgnorePep8
         "backspace [<n>]": release + Key("backspace:%(n)d"),
         "application key": release + Key("apps/3"),
         "win key": release + Key("win/3"),
