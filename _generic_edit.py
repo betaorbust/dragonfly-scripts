@@ -476,15 +476,6 @@ grammarCfg.cmd.map = Item(
 )
 
 
-if config.get("aenea.enabled") == True:
-    # Keypresses, to get that working better in Linux.
-    grammarCfg.cmd.map.update({
-        "press <modifierSingle>": Key("%(modifierSingle)s"),
-        "press <modifier1> <pressKey> [<n>]": Key("%(modifier1)s-%(pressKey)s:%(n)d"),  # @IgnorePep8
-        "press <modifier1> <modifier2> <pressKey> [<n>]": Key("%(modifier1)s%(modifier2)s-%(pressKey)s:%(n)d"),  # @IgnorePep8
-    })
-
-
 class KeystrokeRule(MappingRule):
     exported = False
     mapping = grammarCfg.cmd.map
