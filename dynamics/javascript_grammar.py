@@ -101,6 +101,9 @@ rules = MappingRule(
         "window": Text("window"),
         "undefined": Text("undefined"),
         "JSON": Text("JSON"),
+
+        # Macro triggers
+        "DocBlock": Text("/**") + Key("tab"),
     },
     extras=[
         IntegerRef("n", 1, 100),

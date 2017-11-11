@@ -18,12 +18,6 @@ INCOMPATIBLE_MODULES = [
 ]
 
 def findNthToken(text, n, direction):
-    print("It's running!")
-    try:
-        text
-    except NameError:
-        print("No search text provided for token.")
-    else:
         Key("c-f").execute()
         Text("%(text)s").execute({"text": text})
         if direction == "reverse":
@@ -37,9 +31,10 @@ rules = MappingRule(
     mapping={
         # File management
         "[open] command palette": Key("cs-p"),
-        "open file": Key("c-p"),
-        "Close code tab": Key("c-w"),
+        "(Open [file] | Go to [tab]) [<text>]": Key("c-p") + Text("%(text)s"),
+        "Close tab": Key("c-w"),
         "Save file": Key("c-s"),
+        "Save and close": Key("c-s/10, c-w"),
        
         # Search
         "(search | find in) [all] (files | codebase)": Key("cs-f"),
@@ -47,18 +42,28 @@ rules = MappingRule(
         "(Find | Jump [to]) next <text>": Function(findNthToken, n=1, direction="forward"),
         "(Find | Jump [to]) previous <text>": Function(findNthToken, n=1, direction="reverse"),
 
-
         # Tab management       
-        "Next tab": Key("c-pgdown"),
-        "Previous tab": Key("c-pgup"),
+        "nexta": Key("c-pgdown"),  # These would be next and previous tab but i have a conflict with chrome
+        "prexta": Key("c-pgup"),
         "Close tab": Key("c-f4"),
+        "Exit preview": Key("space, c-z"),
 
         # moving around a file
         "(go to | jump | jump to) line <n>": Key("c-g") + Text("%(n)d") + Key("enter"),
         "Go to definition": Key("f12"),
-        "Go to required definition": Key("c-f12:2") + Key("c-right:5") + Key("left/50") + Key("f12"),
+        "Go to required definition": Key("c-f12:2, c-right:5, left/50, f12"),
         "Go to (top | first line)": Key("c-home"),
-        "Go to ( bottom | last line)": Key("c-end")
+        "Go to ( bottom | last line)": Key("c-end"),
+        "ee-ol": Key("end"),
+        "beol": Key("home"),
+        "Go back": Key("a-left"),
+        "Go forward": Key("a-right"),
+
+        # Formatting
+        "indent": Key("tab"),
+        "Unindent": Key("s-tab"),
+        "Comment": Key("c-slash"),
+        "Block comment": Key("sa-a")
     },
     extras=[
         IntegerRef("n", 1, 100),
