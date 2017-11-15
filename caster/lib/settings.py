@@ -152,30 +152,19 @@ def init_default_values():
     # apps section
     values_change_count += update_values(SETTINGS, [("apps", {})])
     values_change_count += update_values(SETTINGS["apps"], [
-                       ("atom", True), 
                        ("chrome", True),
                        ("cmd", True),
                        ("dragon", True),
-                       ("eclipse", True),
                        ("emacs", True),
                        ("explorer", True),
                        ("firefox", True),
-                       ("flashdevelop", True),
-                       ("foxitreader", True),
                        ("gitbash", True),
                        ("kdiff3", True),
                        ("douglas", True),
                        ("legion", True),
                        ("rainbow", True),
-                       ("ssms", True),
-                       ("jetbrains", True),
-                       ("msvc", True),
-                       ("notepadplusplus", True),
-                       ("sqldeveloper", True),
-                       ("sublime", True),
                        ("visualstudio", True),
                        ("winword", True),
-                       ("wsr", True),
                        ])
     
     # feature switches

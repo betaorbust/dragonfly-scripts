@@ -1,7 +1,5 @@
 from dragonfly.actions.action_text import Text
 
-from caster.apps import eclipse
-from caster.apps.eclipse import EclipseCCR
 from caster.lib.ccr.bash.bash import Bash
 from caster.lib.ccr.java.java import Java
 from caster.lib.ccr.python.python import Python
@@ -22,7 +20,6 @@ class TestFilterFunctions(TestNexus):
         self.nexus.merger.add_global_rule(Python(name=self._python2))
         self.nexus.merger.add_global_rule(Java())
         self.nexus.merger.add_global_rule(Bash())
-        self.nexus.merger.add_app_rule(EclipseCCR(), eclipse.context)
         self.nexus.merger.update_config()
         self.set_global = self.nexus.merger.global_rule_changer()
         self.set_selfmod = self.nexus.merger.selfmod_rule_changer()

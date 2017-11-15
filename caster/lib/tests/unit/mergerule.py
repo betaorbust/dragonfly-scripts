@@ -1,7 +1,6 @@
 #Embedded file name: C:\NatLink\NatLink\MacroSystem\caster\lib\tests\unit\mergerule.py
 import unittest
 from dragonfly.grammar.context import AppContext
-from caster.apps.eclipse import EclipseCCR
 from caster.lib.ccr.java.java import Java
 from caster.lib.ccr.javascript.javascript import Javascript
 from caster.lib.ccr.python.python import Python
@@ -20,9 +19,7 @@ class TestMergeRule(unittest.TestCase):
 
     def test_mcontext(self):
         python = Python()
-        eclipse = EclipseCCR(mcontext=AppContext(executable='test'))
         self.assertIsNone(python.get_context())
-        self.assertIsNotNone(eclipse.get_context())
 
     def test_id(self):
         python = Python()
