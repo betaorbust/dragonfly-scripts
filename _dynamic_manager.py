@@ -70,7 +70,7 @@ def notify(message="", useSound=True):
 
 
 def enable_module(module, useSound=True):
-    """Enables the specified module. Disables conflicting modules."""
+    """activates the specified module. Disables conflicting modules."""
     if not module:
         return
     moduleName = module.DYN_MODULE_NAME
@@ -87,7 +87,7 @@ def enable_module(module, useSound=True):
 
 
 def disable_module(module, useSound=True):
-    """Disabled the specified module."""
+    """deactivated the specified module."""
     if not module:
         return
     status = module.dynamic_disable()
@@ -213,15 +213,15 @@ class SeriesMappingRule(CompoundRule):
 
 series_rule = SeriesMappingRule(
     mapping={
-        "enable <module> mode": Function(enable_modules),
-        "enable <module> mode only": Function(enable_modules, disableOthers=True),  # @IgnorePep8
-        "enable <module> and <module2> mode": Function(enable_modules),  # @IgnorePep8
-        "enable <module> and <module2> mode only": Function(enable_modules, disableOthers=True),  # @IgnorePep8
-        "enable <module> and <module2> and <module3> mode": Function(enable_modules),  # @IgnorePep8
-        "enable <module> and <module2> and <module3> mode only": Function(enable_modules, disableOthers=True),  # @IgnorePep8
+        "activate <module> mode": Function(enable_modules),
+        "activate <module> mode only": Function(enable_modules, disableOthers=True),  # @IgnorePep8
+        "activate <module> and <module2> mode": Function(enable_modules),  # @IgnorePep8
+        "activate <module> and <module2> mode only": Function(enable_modules, disableOthers=True),  # @IgnorePep8
+        "activate <module> and <module2> and <module3> mode": Function(enable_modules),  # @IgnorePep8
+        "activate <module> and <module2> and <module3> mode only": Function(enable_modules, disableOthers=True),  # @IgnorePep8
         "show dynamic [(mode|modes)] status": Function(show_module_status),
-        "disable <module> mode": Function(disable_module),
-        "disable [all] dynamic modes": Function(disable_all_modules),
+        "deactivate <module> mode": Function(disable_module),
+        "deactivate [all] dynamic modes": Function(disable_all_modules),
     },
     extras=[
         IntegerRef("n", 1, 100),
