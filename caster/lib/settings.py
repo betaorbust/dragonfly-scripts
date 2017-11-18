@@ -163,7 +163,7 @@ def init_default_values():
                        ("douglas", True),
                        ("legion", True),
                        ("rainbow", True),
-                       ("visualstudio", True),
+                       ("visualstudiocode", True),
                        ("winword", True),
                        ])
     
