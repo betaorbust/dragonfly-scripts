@@ -87,14 +87,10 @@ class VisualStudioCodeRule(MergeRule):
 
 context = AppContext(executable="code")
 grammar = Grammar("Visual Studio Code", context=context)
-print("At least we got here")
 if settings.SETTINGS["apps"]["visualstudiocode"]:
-    print("inside one")
     if settings.SETTINGS["miscellaneous"]["rdp_mode"]:
         control.nexus().merger.add_global_rule(VisualStudioCodeRule())
-        print("inside To")
     else:
-        print("made it to the else")
         rule = VisualStudioCodeRule(name="visualstudiocode")
         gfilter.run_on(rule)
         grammar.add_rule(rule)
