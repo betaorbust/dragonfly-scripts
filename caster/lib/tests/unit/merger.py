@@ -1,6 +1,8 @@
 from dragonfly.actions.action_key import Key
 from dragonfly.grammar.rule_mapping import MappingRule
 
+from caster.apps import eclipse
+from caster.apps.eclipse import EclipseCCR
 from caster.lib.ccr.bash.bash import Bash
 from caster.lib.ccr.java.java import Java
 from caster.lib.ccr.python.python import Python
@@ -32,6 +34,7 @@ class TestMerger(TestNexus):
         self.nexus.merger.add_global_rule(Java())
         self.nexus.merger.add_global_rule(Bash())
         self.nexus.merger.add_selfmodrule(ChainAlias(self.nexus))
+        self.nexus.merger.add_app_rule(EclipseCCR(), eclipse.context)
         self.nexus.merger.add_filter(demo_filter)
         self.nexus.merger.update_config()
         self.nexus.merger.merge(MergeInf.BOOT)
@@ -51,6 +54,7 @@ class TestMerger(TestNexus):
         '''make sure the config is set up correctly'''
         self.assertTrue("Python" in self.nexus.merger._config[CCRMerger._GLOBAL])
         self.assertTrue(ChainAlias.pronunciation in self.nexus.merger._config[CCRMerger._SELFMOD])
+        self.assertTrue(EclipseCCR.pronunciation in self.nexus.merger._config[CCRMerger._APP])
         self.assertEqual(len(self.nexus.merger.global_rule_names()), 3)
         self.assertEqual(len(self.nexus.merger.selfmod_rule_names()), 1)
         self.assertEqual(len(self.nexus.merger.app_rule_names()), 1)
