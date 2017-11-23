@@ -1,6 +1,5 @@
 #! python2.7
 '''
-testing?
 main Caster module
 Created on Jun 29, 2014
 '''
