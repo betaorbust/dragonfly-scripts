@@ -208,6 +208,8 @@ formatMap = {
     "camel": ft.camelCase,
     "pascal": ft.pascalCase,
     "snake": ft.snakeCase,
+    "uppercase snake": [ft.snakeCase, ft.upperCase],
+    "snake uppercase": [ft.snakeCase, ft.upperCase],
     "uppercase": ft.upperCase,
     "lowercase": ft.lowerCase,
     "squash": ft.squash,
