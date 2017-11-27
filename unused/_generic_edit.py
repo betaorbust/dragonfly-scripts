@@ -428,8 +428,8 @@ grammarCfg.cmd.map = Item(
         "brackets": Key("lbracket, rbracket, left/3"),
         "braces": Key("lbrace, rbrace, left/3"),
         "parens": Key("lparen, rparen, left/3"),
-        "(double | dub) quotes": Text("\"\"") + Key("left"),
-        "quotes": Text("''") + Key("left/3"),
+        #"(double | dub) quotes": Text("\"\"") + Key("left"),
+        #"quotes": Text("''") + Key("left/3"),
         # Shorthand multiple characters.
         "double <char>": Text("%(char)s%(char)s"),
         "triple <char>": Text("%(char)s%(char)s%(char)s"),
