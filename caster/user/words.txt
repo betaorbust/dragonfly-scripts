@@ -1,0 +1,18 @@
+arch -> alpha 
+brov -> bravo
+char -> Charlie 
+foxy -> foxtrot
+goof -> golf 
+Novakeen -> November 
+prime -> papa 
+
+iffae -> iffy
+shells -> elsie
+
+shock -> slap
+terminate -> clap
+
+prior -> previous
+prekris -> parens
+brax -> brackets
+angle -> angles
