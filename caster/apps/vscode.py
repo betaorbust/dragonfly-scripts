@@ -7,22 +7,51 @@ from caster.lib.dfplus.merge import gfilter
 from caster.lib.dfplus.merge.mergerule import MergeRule
 from caster.lib.dfplus.state.short import R
 
-def findNthToken(text, n, direction):
-        Key("c-f").execute()
-        Text("%(text)s").execute({"text": text})
-        if direction == "reverse":
-            print("yeah? %(n)d")
-            Key("s-enter:%(n)d").execute()
-        else:
-            Key("enter:%(n)d").execute()
-            print("no? %(n)d")
+def select_lines(x, y):
+    '''Selects line x through y inclusive.'''
+    if x < 1:
+        return
+    if y < 1:
+        y = x
+    if y < x:
+        x, y = y, x
+
+    Key("c-g").execute()
+    Text("%(n)d").execute({"n": x})
+    Key("enter").execute()
+    Key("c-i").execute()  # Selects entire line
+    Key("s-down:%(n)d").execute({"n": y - x})  #Select y-x following lines
+    
+def delete_lines(x, y):
+    '''Deletes between line x and the line y inclusive.'''
+    select_lines(x, y)
+    Key("del").execute()
+
+def copy_lines(x, y):
+    '''Copy content from line x through y, inclusive.'''
+    select_lines(x, y)
+    Key("c-c").execute()
+
+def cut_lines(x, y):
+    '''Cut content from line x through y, inclusive.'''
+    select_lines(x, y)
+    Key("c-x").execute()
+
+
+def find_nth_token(text, n, direction):
+    Key("c-f").execute()
+    Text("%(text)s").execute({"text": text})
+    if direction == "reverse":
+        Key("s-enter:%(n)d").execute({"n": n})
+    else:
+        Key("enter:%(n)d").execute({"n": n})
         Key('escape').execute()
 
 class VisualStudioCodeRule(MergeRule):
     pronunciation = "visual studio code"
 
     mapping = {
-        ### ported from my dragonfly scripts
+        # ported from my dragonfly scripts
         # File management
         "[open] command palette": R(Key("cs-p"), rdescript="Visual Studio Code: Command Palette"),
         "(Open [file] | Go to [tab]) [<text>]": R(Key("c-p") + Text("%(text)s"), rdescript="Visual Studio Code: Go To File"),
@@ -33,8 +62,8 @@ class VisualStudioCodeRule(MergeRule):
         # Search
         "(search | find in) [all] (files | codebase)": R(Key("cs-f"), rdescript="Visual Studio Code: Find in Codebase"),
         "(search | find) [file]": R(Key("c-f"), rdescript="Visual Studio Code: Find in File"),
-        "(Find | Jump [to]) next <text>": R(Function(findNthToken, n=1, direction="forward"), rdescript="Visual Studio Code: Find Next"),
-        "(Find | Jump [to]) previous <text>": R(Function(findNthToken, n=1, direction="reverse"), rdescript="Visual Studio Code: Find Previous"),
+        "(Find | Jump [to]) next <text>": R(Function(find_nth_token, n=1, direction="forward"), rdescript="Visual Studio Code: Find Next"),
+        "(Find | Jump [to]) previous <text>": R(Function(find_nth_token, n=1, direction="reverse"), rdescript="Visual Studio Code: Find Previous"),
 
         # Tab management       
         "nexta [<n>]": R(Key("c-pgdown"), rdescript="Visual Studio Code: Next Tab") * Repeat(extra="n"),  # These would be next and previous tab but i have a conflict with chrome
@@ -59,10 +88,17 @@ class VisualStudioCodeRule(MergeRule):
         "Comment": R(Key("c-slash"), rdescript="Visual Studio Code: Line Comment"),
         "Block comment": R(Key("sa-a"), rdescript="Visual Studio Code: Block Comment"),
 
+        # Editing 
+        "select (line|lines) <x> [through <y>]": R(Function(select_lines), rdescript="VSC: Select lines"),
+        "copy (lines|line) <x> [through <y>]":   R(Function(copy_lines), rdescript="VSC: Copy lines"),
+        "cut (lines|line) <x> [through <y>]":    R(Function(cut_lines), rdescript="VSC: Cut lines"),
+        "delete (lines|line) <x> [through <y>]": R(Function(delete_lines), rdescript="VSC: Delete Lines"),
+        "expand selection [<n> [(times|time)]]": R(Key("sa-right"), rdescript="VSC: expand selection") * Repeat(extra="n"),
+        "shrink selection [<n> [(times|time)]]": R(Key("sa-left"), rdescript="VSC: shrink selection") * Repeat(extra="n"),
+
         # Window Management
         "[toggle] full screen":         R(Key("f11"), rdescript="Visual Studio Code:Fullscreen"),        
         "[toggle] Zen mode":            R(Key("c-k/3, z")),
-
 
         # Debugging
         "[toggle] breakpoint":          R(Key("f9"), rdescript="Visual Studio Code:Breakpoint"),
@@ -75,15 +111,18 @@ class VisualStudioCodeRule(MergeRule):
               Dictation("text"),
               Dictation("mim"),
               IntegerRefST("n", 1, 1000),
-              
+              IntegerRefST("x", -1, 10000),
+              IntegerRefST("y", -1, 10000)
              ]
     defaults = {
         "n": 1,
-        "mim":"",
+        "x": -1,
+        "y": -1,
+        "mim": "",
         "text": ""
         }
 
-#---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 
 context = AppContext(executable="code")
 grammar = Grammar("Visual Studio Code", context=context)
