@@ -74,14 +74,17 @@ class JavascriptCode(MergeRule):
         "instance of":                  R(Text("instanceof "), rdescript="Javascript: Instance Of"),
         
         "var":                          R(Text("var "), rdescript="Javascript: Var"),
-        "const":                        R(Text("const"), rdescript=" JavaScript: Const"),
-        "Let":                          R(Text("let"), rdescript=" JavaScript: Let"),
+        "const":                        R(Text("const "), rdescript=" JavaScript: Const"),
+        "Let":                          R(Text("let "), rdescript=" JavaScript: Let"),
 
         "else if":                      R(Text("else if (){}") + Key("left"), rdescript="Javascript: Else If"),
         
         "(object|obj) (property | prop)":  R(Text(": ") + Key("left:2"), rdescript="Javascript: object method"),
         "assign":                       R(Text(" = "), rdescript="Javascript: assign"),
-        "equals":                       R(Text(" === "), rdescript="Javascript: equals"),
+        "identity":                       R(Text(" === "), rdescript="Javascript: equals"),
+        "Semi":                         R( Text(";"), rdescript="JavaScript: semicolon"),
+        "Doc block":                    R( Text("/**") + Pause(_AUTOCOMPLETE_WAIT_CS) + Key("tab"), rdescript="JavaScript: Document block"),
+        "Doc this":                R(Text("/** Document This") + Pause(_AUTOCOMPLETE_WAIT_CS) + Key("tab"), rdescript="JavaScript: Document This"),
     }
     
     extras   = []

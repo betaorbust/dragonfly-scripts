@@ -21,15 +21,20 @@ def select_characters(prev_next, n):
 class Generic(MergeRule):
     pronunciation = "Generic"
     mapping = {
-        "<direction> <n>": R(Function(go_direction), rdescript="move direction") * Repeat(extra="n"),
-        "thin arrow":      R(Text(" -> "), rdescript="thin arrow"),
-        "thick arrow":     R(Text(" => "), rdescript="thick arrow"),
-        "dub quotes":      R(Text("") + Key("left"), rdescript="Double quotes"),
-        "double quote":    R(Text("\""), rdescript="Double quote"),
-        "quotes":          R(Text("''") + Key("left"), rdescript="Single quotes"),
-        "single quote":    R(Text("'"), rdescript="Single quote"),
-
+        "delete [<n>]":     R(Key("del:%(n)d"), rdescript="Delete"),
+        "Line":             R(Key("enter"), rdescript="New line"), 
+        "<direction> <n>":  R(Function(go_direction), rdescript="move direction"),
+        "thin arrow":       R(Text(" -> "), rdescript="thin arrow"),
+        "thick arrow":      R(Text(" => "), rdescript="thick arrow"),
+        "dub quotes":       R(Text("\"\"") + Key("left"), rdescript="Double quotes"),
+        "double quote":     R(Text("\""), rdescript="Double quote"),
+        "sing quotes": R(Text("''") + Key("left"), rdescript="Single quotes"),
+        "sing quote": R(Text("'"), rdescript="Single quote"),
+        "Com-space":        R(Text(", "), rdescript="comma space"),
         "select <prev_next> <n>": R(Function(select_characters), rdescript="select characters"),
+        "add":              R(Text(" + "), rdescript="Add"),
+        "Subtract":         R(Text(" - "), rdescript="Subtract"),
+        "(Copy|Cop) [This|That]": R(Key("c-c"), rdescript="Copy"),
         # "select <prev_next> <n> words": R(Function(select_words), rdescript="select words"),
     }
     

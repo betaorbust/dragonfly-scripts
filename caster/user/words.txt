@@ -13,6 +13,12 @@ shock -> slap
 terminate -> clap
 
 prior -> previous
-prekris -> parens
 brax -> brackets
 angle -> angles
+prekris -> Parens
+
+yell -> caps
+tie -> Title
+Gerrish -> Camel
+sing -> Sentence
+laws -> lower
