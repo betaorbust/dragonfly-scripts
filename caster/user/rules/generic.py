@@ -36,6 +36,7 @@ class Generic(MergeRule):
         "Subtract":         R(Text(" - "), rdescript="Subtract"),
         "(Copy|Cop) [This|That]": R(Key("c-c"), rdescript="Copy"),
         # "select <prev_next> <n> words": R(Function(select_words), rdescript="select words"),
+        "octothop": R( Text("@"), rdescript="the damn at symbol"),
     }
     
     extras   = [
