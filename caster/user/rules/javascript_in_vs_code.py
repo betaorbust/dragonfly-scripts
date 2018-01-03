@@ -77,7 +77,7 @@ class JavascriptCode(MergeRule):
         "const":                        R(Text("const "), rdescript=" JavaScript: Const"),
         "Let":                          R(Text("let "), rdescript=" JavaScript: Let"),
 
-        "else if":                      R(Text("else if (){}") + Key("left"), rdescript="Javascript: Else If"),
+        "else if":                      R(Text("else if") + Pause(_AUTOCOMPLETE_WAIT_CS) + Key("tab"), rdescript="Javascript: Else If"),
         
         "(object|obj) (property | prop)":  R(Text(": ") + Key("left:2"), rdescript="Javascript: object method"),
         "assign":                       R(Text(" = "), rdescript="Javascript: assign"),
