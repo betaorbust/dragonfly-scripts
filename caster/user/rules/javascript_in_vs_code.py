@@ -1,4 +1,4 @@
-from dragonfly import Key, Text, Pause
+from dragonfly import Key, Text, Pause, Choice
 
 from caster.lib import control
 from caster.lib.ccr.standard import SymbolSpecs
@@ -80,14 +80,72 @@ class JavascriptCode(MergeRule):
         "else if":                      R(Text("else if") + Pause(_AUTOCOMPLETE_WAIT_CS) + Key("tab"), rdescript="Javascript: Else If"),
         
         "(object|obj) (property | prop)":  R(Text(": ") + Key("left:2"), rdescript="Javascript: object method"),
+        "(object|obj) [dot] <objectMethods>":    R( Text ("object.%(objectMethods)s()") + Key("left"), rdescript="JavaScript: Object prototype methods"),
+        "(object|obj) [dot] <objectProperties>": R( Text ("object.%(objectProperties)s"), rdescript="JavaScript: Object prototype properties"),
         "assign":                       R(Text(" = "), rdescript="Javascript: assign"),
-        "identity":                       R(Text(" === "), rdescript="Javascript: equals"),
+        "identity":                     R(Text(" === "), rdescript="Javascript: equals"),
         "Semi":                         R( Text(";"), rdescript="JavaScript: semicolon"),
         "Doc block":                    R( Text("/**") + Pause(_AUTOCOMPLETE_WAIT_CS) + Key("tab"), rdescript="JavaScript: Document block"),
-        "Doc this":                R(Text("/** Document This") + Pause(_AUTOCOMPLETE_WAIT_CS) + Key("tab"), rdescript="JavaScript: Document This"),
+        "Doc this":                     R(Text("/** Document This") + Pause(_AUTOCOMPLETE_WAIT_CS) + Key("tab"), rdescript="JavaScript: Document This"),
+        "console [dot] <logType>":       R( Text("console.%(logType)s()") + Key("left"), rdescript="JavaScript: Console output"),
     }
     
-    extras   = []
+    extras   = [
+        Choice("logType", {
+            "debug": "debug",
+            "error": "error",
+            "info": "info",
+            "log": "log",
+            "warn": "warn",
+            "dir": "dir",
+            "dir xml": "dirxml",
+            "table": "table",
+            "trace": "trace",
+            "group": "group",
+            "group collapsed": "groupCollapsed",
+            "group end": "groupEnd",
+            "clear": "clear",
+            "count": "count",
+            "assert": "assert",
+            "mark timeline": "markTimeline",
+            "profile": "profile",
+            "profile and": "profileEnd",
+            "timeline": "timeline",
+            "timeline and": "timelineEnd",
+            "time": "time",
+            "time end": "timeEnd",
+            "time stamp": "timeStamp",
+            "context": "context",
+            "memory": "memory"
+        }),
+        Choice("objectMethods",{
+            "assign": "assign",
+            "getOwnPropertyDescriptor": "getOwnPropertyDescriptor",
+            "getOwnPropertyDescriptors": "getOwnPropertyDescriptors",
+            "getOwnPropertyNames": "getOwnPropertyNames",
+            "getOwnPropertySymbols": "getOwnPropertySymbols",
+            "is": "is",
+            "preventExtensions": "preventExtensions",
+            "seal": "seal",
+            "create": "create",
+            "defineProperties": "defineProperties",
+            "defineProperty": "defineProperty",
+            "freeze": "freeze",
+            "getPrototypeOf": "getPrototypeOf",
+            "setPrototypeOf": "setPrototypeOf",
+            "isExtensible": "isExtensible",
+            "isFrozen": "isFrozen",
+            "isSealed": "isSealed",
+            "keys": "keys",
+            "entries": "entries",
+            "values": "values"
+        }),
+        Choice("objectProperties",{
+            "length": "length",
+            "name": "name",
+            "prototype": "prototype"
+        })
+    ]
     defaults = {}
     
 control.nexus().merger.add_global_rule(JavascriptCode())
