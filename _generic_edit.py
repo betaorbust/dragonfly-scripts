@@ -38,10 +38,6 @@ if not 'Control_R' in typeables:
 if not 'semicolon' in typeables:
     typeables["semicolon"] = keyboard.get_typeable(char=';')
 
-import lib.config
-config = lib.config.get_config()
-
-import lib.sound as sound
 from lib.format import (
     camel_case_count,
     pascal_case_count,
@@ -56,21 +52,6 @@ from lib.format import (
 
 
 release = Key("shift:up, ctrl:up, alt:up")
-
-
-def cancel_and_sleep(text=None, text2=None):
-    """Used to cancel an ongoing dictation and puts microphone to sleep.
-
-    This method notifies the user that the dictation was in fact canceled,
-    with a sound and a message in the Natlink feedback window.
-    Then the the microphone is put to sleep.
-    Example:
-    "'random mumbling go to sleep'" => Microphone sleep.
-
-    """
-    print("* Dictation canceled. Going to sleep. *")
-    sound.play(sound.SND_DING)
-    setMicState("sleeping")
 
 
 def reload_natlink():
@@ -232,84 +213,6 @@ formatMap = {
 }
 
 
-abbreviationMap = {
-    "administrator": "admin",
-    "administrators": "admins",
-    "application": "app",
-    "applications": "apps",
-    "argument": "arg",
-    "arguments": "args",
-    "attribute": "attr",
-    "attributes": "attrs",
-    "(authenticate|authentication)": "auth",
-    "binary": "bin",
-    "button": "btn",
-    "class": "cls",
-    "command": "cmd",
-    "(config|configuration)": "cfg",
-    "context": "ctx",
-    "control": "ctrl",
-    "database": "db",
-    "(define|definition)": "def",
-    "description": "desc",
-    "(develop|development)": "dev",
-    "(dictionary|dictation)": "dict",
-    "(direction|directory)": "dir",
-    "dynamic": "dyn",
-    "example": "ex",
-    "execute": "exec",
-    "exception": "exc",
-    "expression": "exp",
-    "(extension|extend)": "ext",
-    "function": "func",
-    "framework": "fw",
-    "(initialize|initializer)": "init",
-    "instance": "inst",
-    "integer": "int",
-    "iterate": "iter",
-    "java archive": "jar",
-    "javascript": "js",
-    "keyword": "kw",
-    "keyword arguments": "kwargs",
-    "language": "lng",
-    "library": "lib",
-    "length": "len",
-    "number": "num",
-    "object": "obj",
-    "okay": "ok",
-    "package": "pkg",
-    "parameter": "param",
-    "parameters": "params",
-    "pixel": "px",
-    "position": "pos",
-    "point": "pt",
-    "previous": "prev",
-    "property": "prop",
-    "python": "py",
-    "query string": "qs",
-    "reference": "ref",
-    "references": "refs",
-    "(represent|representation)": "repr",
-    "regular (expression|expressions)": "regex",
-    "request": "req",
-    "revision": "rev",
-    "ruby": "rb",
-    "session aidee": "sid",  # "session id" didn't work for some reason.
-    "source": "src",
-    "(special|specify|specific|specification)": "spec",
-    "standard": "std",
-    "standard in": "stdin",
-    "standard out": "stdout",
-    "string": "str",
-    "(synchronize|synchronous)": "sync",
-    "system": "sys",
-    "utility": "util",
-    "utilities": "utils",
-    "temporary": "tmp",
-    "text": "txt",
-    "value": "val",
-    "window": "win",
-}
 
 # For use with "say"-command. Words that are commands in the generic edit
 # grammar were treated as separate commands and could not be written with the
@@ -459,15 +362,10 @@ grammarCfg.cmd.map = Item(
         # For writing words that would otherwise be characters or commands.
         # Ex: "period", tab", "left", "right", "home".
         "say <reservedWord>": Text("%(reservedWord)s"),
-        # Abbreviate words commonly used in programming.
-        # Ex: arguments -> args, parameters -> params.
-        "abbreviate <abbreviation>": Text("%(abbreviation)s"),
         # Text corrections.
         "(add|fix) missing space": Key("c-left/3, space, c-right/3"),
         "(delete|remove) (double|extra) (space|whitespace)": Key("c-left/3, backspace, c-right/3"),  # @IgnorePep8
         "(delete|remove) (double|extra) (type|char|character)": Key("c-left/3, del, c-right/3"),  # @IgnorePep8
-        # Microphone sleep/cancel started dictation.
-        "[<text>] (go to sleep|cancel and sleep) [<text2>]": Function(cancel_and_sleep),  # @IgnorePep8
         # Reload Natlink.
         "reload Natlink": Function(reload_natlink),
     },
@@ -491,7 +389,6 @@ class KeystrokeRule(MappingRule):
         Choice("modifierSingle", singleModifierMap),
         Choice("pressKey", pressKeyMap),
         Choice("formatType", formatMap),
-        Choice("abbreviation", abbreviationMap),
         Choice("reservedWord", reservedWord),
     ]
     defaults = {
@@ -529,11 +426,3 @@ class RepeatRule(CompoundRule):
 grammar = Grammar("Generic edit")
 grammar.add_rule(RepeatRule())  # Add the top-level rule.
 grammar.load()  # Load the grammar.
-
-
-def unload():
-    """Unload function which will be called at unload time."""
-    global grammar
-    if grammar:
-        grammar.unload()
-    grammar = None
