@@ -87,6 +87,8 @@ class VisualStudioCodeRule(MergeRule):
         "Unindent [<n>]": R(Key("s-tab"), rdescript="Visual Studio Code: Unindent") * Repeat(extra="n"),
         "Comment": R(Key("c-slash"), rdescript="Visual Studio Code: Line Comment"),
         "Block comment": R(Key("sa-a"), rdescript="Visual Studio Code: Block Comment"),
+        "format document": R(Key("sa-f"),rdesript = "Format the entire document"),
+        "format selection": R(Key("sa-f"),rdesript = "Format only the selected lines"),
 
         # Editing 
         "select (line|lines) <x> [through <y>]": R(Function(select_lines), rdescript="VSC: Select lines"),
