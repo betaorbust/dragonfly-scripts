@@ -55,7 +55,7 @@ class VisualStudioCodeRule(MergeRule):
         # File management
         "[open] command palette": R(Key("cs-p"), rdescript="Visual Studio Code: Command Palette"),
         "(Open [file] | Go to [tab]) [<text>]": R(Key("c-p") + Text("%(text)s"), rdescript="Visual Studio Code: Go To File"),
-        "Close tab": R(Key("c-w"), rdescript="Visual Studio Code: Close Tab"),
+        "Close (tab|file)": R(Key("c-w"), rdescript="Visual Studio Code: Close Tab"),
         "Save file": R(Key("c-s"), rdescript="Visual Studio Code: Save File"),
         "Save and close": R(Key("c-s/10, c-w"), rdescript="Visual Studio Code: Save And Close File"),
        
