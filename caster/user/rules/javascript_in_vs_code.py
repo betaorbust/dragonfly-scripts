@@ -6,7 +6,7 @@ from caster.lib.dfplus.additions import SelectiveAction
 from caster.lib.dfplus.merge.mergerule import MergeRule
 from caster.lib.dfplus.state.short import R
 
-_AUTOCOMPLETE_WAIT_CS = "10"
+_AUTOCOMPLETE_WAIT_CS = "50"
 
 class JavascriptCode(MergeRule):
     pronunciation = "Javascript in VS Code"
@@ -88,6 +88,13 @@ class JavascriptCode(MergeRule):
         "Doc block":                    R( Text("/**") + Pause(_AUTOCOMPLETE_WAIT_CS) + Key("tab"), rdescript="JavaScript: Document block"),
         "Doc this":                     R(Text("/** Document This") + Pause(_AUTOCOMPLETE_WAIT_CS) + Key("tab"), rdescript="JavaScript: Document This"),
         "console [dot] <logType>":       R( Text("console.%(logType)s()") + Key("left"), rdescript="JavaScript: Console output"),
+
+        # Testing
+        "test describe":                R(Text("describe") + Pause(_AUTOCOMPLETE_WAIT_CS) + Key("tab"), rdescript="JS: test describe"),
+        "test it":                      R(Text("it") + Pause(_AUTOCOMPLETE_WAIT_CS) + Key("tab"), rdescript="JS: test it"),
+        "test before each":             R(Text("beforeEach") + Pause(_AUTOCOMPLETE_WAIT_CS) + Key("tab"), rdescript="JS: before each"),
+        "test after each":              R(Text("afterEach") + Pause(_AUTOCOMPLETE_WAIT_CS) + Key("tab"), rdescript="JS: after each"),
+        "test expect":                  R(Text("expect();") + Key("left:2"), rdescript="JS: test describe"),
     }
     
     extras   = [
