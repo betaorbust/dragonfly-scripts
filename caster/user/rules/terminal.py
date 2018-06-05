@@ -1,5 +1,5 @@
 from dragonfly import (Grammar, AppContext, MappingRule,
-                       Key, Text)
+                       Key, Text, Dictation)
 
 from caster.lib import control
 from caster.lib import settings
@@ -15,17 +15,22 @@ class TerminalRule(MergeRule):
         "C drive":          R(Text("cd C:/")+Key("enter"), rdescript="Terminal: Go To C:"),
         "D drive":          R(Text("cd D:/")+Key("enter"), rdescript="Terminal: Go To D:"),
         "CD up":            R(Text( "cd .." )+Key("enter"), rdescript="Terminal: Up Directory"),
-        "CD":               R(Text( "cd " ), rdescript="Terminal: Navigate Directory"),
-        "make directory":   R(Text( "mkdir " ), rdescript="Terminal: Make directory"),
-        "(ls|list)":        R(Text( "ls -al" )+Key("enter"), rdescript="Terminal: List All"),
+        "CD [<text>]":      R(Text( "cd %(text)s" ), rdescript="Terminal: Navigate Directory"),
+        "make (directory|dir) [<text>]": R(Text( "mkdir %(text)s" ), rdescript="Terminal: Make directory"),
+        "(l s|list)":        R(Text( "ls -al" )+Key("enter"), rdescript="Terminal: List All"),
         "exit":             R(Text( "exit" )+Key("enter"), rdescript="Terminal: Exit"),
+        "previous":         R(Key("up") + Key("enter"), rdescript="Terminal: run previous"),
+        "search history":   R(Key("c-r"), "Terminal: serach history"),
+        "kill":             R(Key("c-c"), "Terminal: serach history"),
         }
-    extras = [
-              
-             ]
-    defaults ={}
+    extras = [ 
+        Dictation("text"),
+        ]
+    defaults ={
+        "text": ""
+    }
 
-context = AppContext(title="Windows PowerShell") |  AppContext(title="powershell") |  AppContext(title="Console Emulator (x64)")
+context = AppContext(executable="powershell") |  AppContext(executable="cmd")
 grammar = Grammar("terminal", context=context)
 
 if settings.SETTINGS["apps"]["terminal"]:
